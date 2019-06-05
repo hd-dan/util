@@ -1,7 +1,11 @@
 #include <iostream>
 
 #include "joystick.h"
+#include "keyboard.h"
 #include "util.hpp"
+
+#include <unistd.h>
+#include <termios.h>
 
 #include "../commun/commun.h"
 
@@ -24,27 +28,50 @@ void testJoy(){
     }while (!state.button.at(7));
 }
 
+void testKb(){
+    keyboard kb;
+    char kbKey= kb.getKbKey();
+    while (kbKey!='q'){
+        if (kb.checkNewKey()){
+            kbKey= kb.getKbKey();
+            printf("Input: %c\n",kbKey);
+        }
+    }
+}
+
+void testLoop(){
+    double t=0;
+    while(t<5){
+        printf("t:%.4f\n",t);
+        t+=1e-2;
+        usleep(1e4);
+        boost::this_thread::interruption_point();
+    }
+}
+
 int main(){
     std::cout << "Hello World!" << std::endl;
 
 //    testJoy();
-    std::vector<double> x(11,0);
-    for (unsigned int i=0;i<x.size();i++){
-        x.at(i)= i*0.7289;
-    }
-    print_vector("x",x);
+    testKb();
 
-    double lowest= 4;
-    std::vector<double>::iterator low= std::lower_bound(x.begin(),x.end(),lowest);
 
-    if (low!=x.end()){
-        long window= long(x.end()-low);
-        x= std::vector<double>(x.end()-window,x.end());
-//        x= std::vector<double>(low,x.end());
-        printf("Position: %d\n",window);
-    }
+//    std::vector<double> x(11,0);
+//    for (unsigned int i=0;i<x.size();i++){
+//        x.at(i)= i*0.7289;
+//    }
+//    print_vector("x",x);
 
-    print_vector("new x",x);
+//    double lowest= 4;
+//    std::vector<double>::iterator low= std::lower_bound(x.begin(),x.end(),lowest);
+
+//    if (low!=x.end()){
+//        long window= long(x.end()-low);
+//        x= std::vector<double>(x.end()-window,x.end());
+////        x= std::vector<double>(low,x.end());
+//        printf("Position: %d\n",window);
+//    }
+//    print_vector("new x",x);
 
     return 0;
 }

@@ -6,11 +6,18 @@ CONFIG -= qt
 SOURCES += \
         main.cpp \
     joystick.cpp \
-    ../commun/commun.cpp
+    ../commun/commun.cpp \
+    keyboard.cpp \
+    util_util.cpp
 
 HEADERS += \
     joystick.h \
     util.hpp \
-    ../commun/commun.h
+    ../commun/commun.h \
+    math_util.hpp \
+    linear_algebra.hpp \
+    matrix_util.hpp \
+    keyboard.h \
+    util_util.h
 
 LIBS += -lboost_system -lboost_thread

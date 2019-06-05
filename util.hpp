@@ -5,8 +5,7 @@
 #include <math.h>
 #include <cmath> //abs
 #include <stdlib.h>
-#include <sstream> //ostringstream
-#include <stdio.h> //printf
+//#include <stdio.h> //printf
 #include <iostream> //cout
 #include <iomanip> //cout set width
 #include <ctime>
@@ -214,7 +213,7 @@ std::vector<std::vector<mat> > matmul(std::vector<std::vector<mat> > A, std::vec
     bm= B.size(); bn= B.at(0).size();
 
     if (an!=bm){
-        printf("A: %dx%d & B: %dx%d cannot multiply\n",am,an,bm,bn);
+        printf("A: %ldx%ld & B: %ldx%ld cannot multiply\n",am,an,bm,bn);
         exit(1);
     }
 
@@ -673,7 +672,7 @@ std::vector<std::vector<num> > crossMat(std::vector<num> a){
 template <class num>
 num dot(std::vector<num> a, std::vector<num> b){
     if (a.size()!=b.size()){
-        printf("a:%dx1 and b:%dx1 cannot be dotted",a.size(),b.size());
+        printf("a:%ldx1 and b:%ldx1 cannot be dotted",a.size(),b.size());
         exit(1);
     }
     num c=0;

@@ -1,9 +1,7 @@
 #ifndef JOYSTICK_H
 #define JOYSTICK_H
 
-//#include "util.hpp"
 #include <stdlib.h>
-#include <sstream> //ostringstream
 #include <vector>
 
 #include <unistd.h> //read
@@ -32,7 +30,7 @@ private:
     std::vector<int> axis_calibrate_;
     struct js_state processJs();
 
-    boost::thread jsThread;
+    boost::thread jsThread_;
 
 public:
     joystick(int js_num=0);

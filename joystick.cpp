@@ -26,11 +26,13 @@ joystick::joystick(int js_num):js_(0){
     printf("JOYSTICK: %s\n", js_name_.c_str());
     stopLoop_flag_= true;
 
-    jsThread= boost::thread(&joystick::loopReadJs, this);
+    jsThread_= boost::thread(&joystick::loopReadJs, this);
 }
 
 joystick::~joystick(){
     stopLoop_flag_= true;
+    jsThread_.interrupt();
+    jsThread_.join();
     close(js_);
 }
 
@@ -69,6 +71,7 @@ void joystick::loopReadJs(){
     while (!stopLoop_flag_){
         joystick::processJs();
         usleep(1000);
+        boost::this_thread::interruption_point();
     }
     return;
 }
