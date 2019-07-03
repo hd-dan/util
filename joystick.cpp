@@ -1,6 +1,6 @@
 #include "joystick.h"
 
-joystick::joystick(int js_num):js_(0){
+joystick::joystick(int js_num):js_(0),stopLoop_flag_(false){
     std::string js_dir("/dev/input/js");
     js_dir+= std::to_string(js_num);
 
@@ -24,15 +24,16 @@ joystick::joystick(int js_num):js_(0){
     axis_calibrate_= std::vector<int>(axis_num_,0);
 
     printf("JOYSTICK: %s\n", js_name_.c_str());
-    stopLoop_flag_= true;
 
     jsThread_= boost::thread(&joystick::loopReadJs, this);
 }
 
 joystick::~joystick(){
     stopLoop_flag_= true;
+    usleep(1e3);
     jsThread_.interrupt();
-    jsThread_.join();
+    pthread_cancel(jsThread_.native_handle());
+//    jsThread_.join();
     close(js_);
 }
 
@@ -67,10 +68,10 @@ struct js_state joystick::processJs(){
 }
 
 void joystick::loopReadJs(){
-    stopLoop_flag_= false;
+//    stopLoop_flag_= false;
     while (!stopLoop_flag_){
         joystick::processJs();
-        usleep(1000);
+        usleep(1e3);
         boost::this_thread::interruption_point();
     }
     return;

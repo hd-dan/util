@@ -39,15 +39,11 @@ void testKb(){
     }
 }
 
-void testLoop(){
-    double t=0;
-    while(t<5){
-        printf("t:%.4f\n",t);
-        t+=1e-2;
-        usleep(1e4);
-        boost::this_thread::interruption_point();
-    }
+int findLowestToVal(std::vector<double> x, double val){
+    std::vector<double>::iterator low= std::lower_bound(x.begin(),x.end(),val);
+    return int(low-x.begin());
 }
+
 
 int main(){
     std::cout << "Hello World!" << std::endl;
@@ -55,23 +51,11 @@ int main(){
 //    testJoy();
     testKb();
 
+//    std::vector<std::vector<double> >A= {{1,2,3},{4,1,2},{7,5,2}};
+//    std::vector<std::vector<double> >B= {{6,2,1},{7,73,2},{3,2,12}};
+//    std::vector<std::vector<double> >C= {{53,2,1},{56,2,1},{9,34,2}};
+//    std::vector<double> x= {2,31,5};
 
-//    std::vector<double> x(11,0);
-//    for (unsigned int i=0;i<x.size();i++){
-//        x.at(i)= i*0.7289;
-//    }
-//    print_vector("x",x);
-
-//    double lowest= 4;
-//    std::vector<double>::iterator low= std::lower_bound(x.begin(),x.end(),lowest);
-
-//    if (low!=x.end()){
-//        long window= long(x.end()-low);
-//        x= std::vector<double>(x.end()-window,x.end());
-////        x= std::vector<double>(low,x.end());
-//        printf("Position: %d\n",window);
-//    }
-//    print_vector("new x",x);
 
     return 0;
 }
