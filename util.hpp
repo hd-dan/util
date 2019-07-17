@@ -213,7 +213,7 @@ std::vector<std::vector<mat> > matmul(std::vector<std::vector<mat> > A, std::vec
     bm= B.size(); bn= B.at(0).size();
 
     if (an!=bm){
-        printf("A: %dx%d & B: %dx%d cannot multiply\n",am,an,bm,bn);
+        printf("A: %ldx%ld & B: %ldx%ld cannot multiply\n",am,an,bm,bn);
         exit(1);
     }
 
