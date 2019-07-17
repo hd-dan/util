@@ -213,7 +213,7 @@ std::vector<std::vector<mat> > matmul(std::vector<std::vector<mat> > A, std::vec
     bm= B.size(); bn= B.at(0).size();
 
     if (an!=bm){
-        printf("A: %ldx%ld & B: %ldx%ld cannot multiply\n",am,an,bm,bn);
+        printf("A: %dx%d & B: %dx%d cannot multiply\n",am,an,bm,bn);
         exit(1);
     }
 
@@ -255,7 +255,7 @@ std::vector<num> matmul(std::vector<num> u, std::vector<std::vector<num> > A){
     un= u.size();
     am= A.size(); an= A.at(0).size();
     if (un!=am){
-        printf("x: 1x%d & A: %dx%d cannot multiply\n",un,am,an);
+        printf("x: 1x%ld & A: %ldx%ld cannot multiply\n",un,am,an);
         exit(1);
     }
 
@@ -497,7 +497,7 @@ template <class num>
 std::vector<std::vector<num> > scal(std::vector<std::vector<num> > A, double alpha){
     std::vector<std::vector<num> > aA;
     for (unsigned i=0;i<A.size();i++){
-        aA.push_back(A.at(i),alpha);
+        aA.push_back(scal(A.at(i),alpha));
     }
     return aA;
 }
@@ -645,7 +645,7 @@ std::vector<num> diag(std::vector<std::vector<num> > A){
 template <class num>
 std::vector<num> cross(std::vector<num> a, std::vector<num> b){
     if (a.size()!=3 || b.size()!=3){
-        printf("a: %dx1 crossing b:%dx1, "
+        printf("a: %ldx1 crossing b:%ldx1, "
                "taking only the first 3 element\n",a.size(),b.size());
     }
     std::vector<num> c(3,0);
@@ -690,7 +690,8 @@ double norm(std::vector<num> a){
 template <class num, class wnum>
 double norm(std::vector<num> a, std::vector<wnum> W){
     if (W.size()!=a.size()){
-        printf("weighting vector: %dx1 not compatible with x: %dx1\n",W.size(),a.size());
+        printf("weighting vector: %ldx1 not compatible with x: %ldx1\n",
+               W.size(),a.size());
         exit(1);
     }
     num c=0;
