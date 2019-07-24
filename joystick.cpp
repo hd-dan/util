@@ -7,7 +7,7 @@ joystick::joystick(int js_num):js_(0),stopLoop_flag_(false){
     js_= open(js_dir.c_str(), O_RDONLY);
     if (js_<1){
         printf("Could not open JoyStick js%d\n", js_num);
-        return;
+        exit(1);
     }
     __u8 axis, button;
     char name[256];

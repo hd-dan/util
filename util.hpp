@@ -255,7 +255,7 @@ std::vector<num> matmul(std::vector<num> u, std::vector<std::vector<num> > A){
     un= u.size();
     am= A.size(); an= A.at(0).size();
     if (un!=am){
-        printf("x: 1x%ld & A: %ldx%ld cannot multiply\n",un,am,an);
+        printf("x: 1x%d & A: %dx%d cannot multiply\n",un,am,an);
         exit(1);
     }
 

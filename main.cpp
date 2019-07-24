@@ -49,13 +49,20 @@ int main(){
     std::cout << "Hello World!" << std::endl;
 
 //    testJoy();
-    testKb();
+//    testKb();
 
 //    std::vector<std::vector<double> >A= {{1,2,3},{4,1,2},{7,5,2}};
 //    std::vector<std::vector<double> >B= {{6,2,1},{7,73,2},{3,2,12}};
 //    std::vector<std::vector<double> >C= {{53,2,1},{56,2,1},{9,34,2}};
 //    std::vector<double> x= {2,31,5};
 
+    std::vector<double> h= {0.132,-0.596,-5.51};
+    std::vector<double> v= {0,0.96,-0.025};
+
+    std::vector<double> phv= project(h,v);
+
+    print_vector("proj_h_on_v",phv);
+    printf("dir: %.3f\n",dot(phv,v));
 
     return 0;
 }
