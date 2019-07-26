@@ -101,6 +101,53 @@ std::vector<std::vector<double> > quat2rotm(std::vector<num> quat){
 }
 
 template <class num>
+std::vector<num> axisAngle2quat(std::vector<num>axisAngle){
+    std::vector<num> axis(axisAngle.begin(),axisAngle.begin()+3);
+    double l2norm= 0;
+    for (unsigned int i=0;i<3;i++){
+        l2norm+= axis.at(i)*axis.at(i);
+    }
+    l2norm=sqrt(l2norm);
+    if (fabs(l2norm-1)>1e-4){
+//        printf("Axis is not unit vector. Converting to unit vector now.\n");
+        axis= 1./l2norm*axis;
+    }
+
+    std::vector<num> quat(4,0);
+    for (unsigned int i=0;i<3;i++){
+        quat.at(i)= axis.at(i)*sin(axisAngle.at(3)*0.5);
+    }
+    quat.at(3)= cos(axisAngle.at(3)*0.5);
+    return quat;
+}
+
+template <class num>
+std::vector<num> quat2axisAngle(std::vector<num>quat){
+    std::vector<num> axisAngle(4,0);
+    double sq= 0;
+    for(unsigned int i=0;i<3;i++){
+        sq+=quat.at(i)*quat.at(i);
+    }
+    sq= sqrt(sq);
+
+    for(unsigned int i=0;i<3;i++){
+        axisAngle.at(i)=quat.at(i)/sq;
+    }
+    axisAngle.at(3)= 2*atan2(sq,quat.at(3));
+    return axisAngle;
+}
+
+template <class num>
+std::vector<std::vector<num> > axisAngle2rotm(std::vector<num> axisAngle){
+    return quat2rotm(axisAngle2quat(axisAngle));
+}
+
+template <class num>
+std::vector<num> rotm2axisAngle(std::vector<std::vector<num> > R){
+    return quat2axisAngle(rotm2quat(R));
+}
+
+template <class num>
 std::vector<num> quatmul(std::vector<num> q1, std::vector<num> q2){
     std::vector<num> q12;
     num x1,y1,z1,s1, x2,y2,z2,s2, x12,y12,z12,s12;
@@ -412,6 +459,12 @@ std::vector<num> appendVect(std::vector<num> x, std::vector<num> y){
     for (unsigned i=0;i<y.size();i++){
         x.push_back(y.at(i));
     }
+    return x;
+}
+
+template <class num>
+std::vector<num> appendVect(std::vector<num> x, num y){
+    x.push_back(y);
     return x;
 }
 

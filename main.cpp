@@ -62,7 +62,12 @@ int main(){
     std::vector<double> phv= project(h,v);
 
     print_vector("proj_h_on_v",phv);
-    printf("dir: %.3f\n",dot(phv,v));
+    printf("dir: %.3f\n\n",dot(phv,v));
+
+//    std::vector<double> quat0= {0.9239,0,0,0.3827};
+//    std::vector<double> axang= quat2axisAngle(quat0);
+//    print_vector("axisAng",axang);
+
 
     return 0;
 }
