@@ -887,6 +887,11 @@ void bidiag(std::vector<std::vector<num> >A, std::vector<std::vector<num> >&U, s
     Im= eye<num>(m,m);
     In= eye<num>(n,n);
 
+    for (unsigned int i=0;i<m;i++){
+        for (int j=0;j<m-n;j++)
+            A.at(i).push_back(0);
+    }
+
     for (int i=0;i<n;i++){
         std::vector<num> um(m,0);
         double alpha= -sign(A.at(i).at(i))* l2norm(extractVect(A,i,-1,i,i));
@@ -908,8 +913,8 @@ void bidiag(std::vector<std::vector<num> >A, std::vector<std::vector<num> >&U, s
 
             Pi= minus(Im, uuT, 1,-2);
             U= matmul(Pi,U);
-
         }
+
         if (i<n-2){
             std::vector<num> un(m,0);
             double alpha= -sign(A.at(i).at(i+1))* l2norm(extractVect(A,i,i,i+1,-1));
@@ -921,8 +926,7 @@ void bidiag(std::vector<std::vector<num> >A, std::vector<std::vector<num> >&U, s
                 un.at(j)= A.at(i).at(j)/r;
             }
 
-            std::vector<num> Au;
-            Au= matmul(A,un);
+            std::vector<num> Au= matmul(A,un);
             uuT= outermul(un,un);
 
             A= add(A, outermul(Au,un), 1,-2);
@@ -1121,9 +1125,22 @@ int svd(std::vector<std::vector<num> >A, std::vector<std::vector<num> >&U, std::
     int padN= invS.size()-V.at(0).size();
     if (padN>0){
         for (unsigned int i=0;i<V.size();i++){
-            for (int j=0;j<padN;j++) V.at(i).push_back(0);
+            for (int j=0;j<padN;j++)
+                V.at(i).push_back(0);
         }
     }
+
+    int padU= T.size()-u.size();
+    for (int i=0;i<padU;i++){
+        u.push_back( std::vector<double>(u.at(0).size(),0) );
+    }
+
+    int padv= V.size()-v.at(0).size();
+    for (unsigned int i=0;i<v.size()&&padv>0;i++){
+        for (int j=0;j<padv;j++)
+            v.at(i).push_back(0);
+    }
+
     U= transpose(u) * T*(V*invS);
     V= matmul(v, V);
 
