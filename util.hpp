@@ -191,7 +191,7 @@ void print_num(num x){
 
 template <class num>
 void print_num(std::string name, num x){
-    printf("%s: \n",name.c_str());
+    printf("%s: ",name.c_str());
     print_num(x);
 }
 
@@ -206,7 +206,7 @@ void print_vector(std::vector<num> x){
 
 template <class num>
 void print_vector(std::string name, std::vector<num> x){
-    printf("%s: \n",name.c_str());
+    printf("%s: ",name.c_str());
     print_vector(x);
 }
 
@@ -790,6 +790,18 @@ std::vector<double> rand_d(int m){
 }
 
 template <class num>
+double det_2x2ana(std::vector<std::vector<num> >A){
+    unsigned int am,an;
+    am= A.size(); an= A.at(0).size();
+    if (am!=2 || an!=2){
+        printf("A: %dx%d cannot use det_2x2ana\n",am,an);
+        exit(1);
+    }
+    double detA= A.at(0).at(0)*A.at(1).at(1)-A.at(0).at(1)*A.at(1).at(0);
+    return detA;
+}
+
+template <class num>
 double det_3x3ana(std::vector<std::vector<num> >A){
     unsigned int am,an;
     am= A.size(); an= A.at(0).size();
@@ -1106,6 +1118,12 @@ int svd(std::vector<std::vector<num> >A, std::vector<std::vector<num> >&U, std::
         invS.at(i).at(i)= 1/si;
     }
 
+    int padN= invS.size()-V.at(0).size();
+    if (padN>0){
+        for (unsigned int i=0;i<V.size();i++){
+            for (int j=0;j<padN;j++) V.at(i).push_back(0);
+        }
+    }
     U= transpose(u) * T*(V*invS);
     V= matmul(v, V);
 
