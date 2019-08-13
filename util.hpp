@@ -12,6 +12,7 @@
 #include <chrono>
 
 #include <boost/function.hpp>
+#include <random>
 
 
 template <class num>
