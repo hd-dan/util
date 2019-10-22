@@ -254,6 +254,15 @@ std::vector<std::vector<mat> > transpose(std::vector<std::vector<mat> > A){
     return AT;
 }
 
+template <class vec>
+std::vector<std::vector<vec> > transpose(std::vector<vec> a){
+    std::vector<std::vector<vec> >A;
+    for(unsigned int i=0;i<a.size();i++){
+        A.push_back(std::vector<vec>{a.at(i)});
+    }
+    return A;
+}
+
 template <class mat>
 std::vector<std::vector<mat> > matmul(std::vector<std::vector<mat> > A, std::vector<std::vector<mat> > B){
     unsigned long am,an, bm,bn;
