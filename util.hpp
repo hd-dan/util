@@ -707,6 +707,10 @@ std::vector<num> diag(std::vector<std::vector<num> > A){
 
 template <class num>
 std::vector<num> cross(std::vector<num> a, std::vector<num> b){
+    for (int i= a.size();i<3;i++)
+        a.push_back(0);
+    for (int i=b.size();i<3;i++)
+        b.push_back(0);
     if (a.size()!=3 || b.size()!=3){
         printf("a: %ldx1 crossing b:%ldx1, "
                "taking only the first 3 element\n",a.size(),b.size());
