@@ -625,11 +625,13 @@ num sum(std::vector<num> x){
 
 template <class num>
 num mean(std::vector<num> x){
-    num sumx= 0;
+    num avg= 0;
     for (unsigned int i=0;i<x.size();i++){
-        sumx+= x.at(i);
+        avg+= x.at(i);
     }
-    return 1.*sumx/x.size();
+    if (x.size()>0)
+        avg/= x.size();
+    return avg;
 }
 
 template <class num>
@@ -643,6 +645,39 @@ std::vector<num> mean(std::vector<std::vector<num> > A, int axis){
         avgVect.push_back( mean(A.at(i)) );
     }
     return avgVect;
+}
+
+template <class num>
+double mean_cancelOutliner(std::vector<num> a){
+    double avg= 0;
+    for (unsigned int i=0;i<a.size();i++){
+        avg+=a.at(i);
+    }
+    if (a.size()>0)
+        avg/=a.size();
+
+    bool fOutline= false;
+    for (unsigned int i=0;i<a.size();i++){
+        double deviate= (fabs(avg)>1e-2)? (a.at(i)-avg)/avg: a.at(i)-avg;
+        if (fabs(deviate)>1){
+            a.erase(a.begin()+i);
+            i--;
+            fOutline= true;
+        }
+    }
+
+    if (fOutline)
+        return mean_cancelOutliner(a);
+    return avg;
+}
+
+template <class num>
+std::vector<double> mean_cancelOutliner(std::vector<std::vector<num> > A){
+    std::vector<double> avg(A.size(),0);
+    for (unsigned int i=0;i<A.size();i++){
+        avg.at(i)= mean_cancelOutliner(A.at(i));
+    }
+    return avg;
 }
 
 template <class num>
